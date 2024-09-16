@@ -5,6 +5,8 @@ from torch import nn
 from sklearn.preprocessing import StandardScaler
 import torch.nn.functional as F
 from util.scaler import get_scaler
+from services.quali_service import get_headers
+
 _MODEL = None
 
 class F1RacePrediction(nn.Module):
@@ -88,3 +90,4 @@ def scorecard_ts(season, model2):
     print(f'{score} out of {predicted} predicted races')
 
 scorecard_ts(2022, moggle)
+print(get_model())
