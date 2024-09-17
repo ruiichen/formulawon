@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 from dateutil.relativedelta import *
-from util.consts import headers
+from util.consts import headers, booleans
 
 def get_quali(season, round):
     qualifying_results = {'grid': [],
@@ -135,10 +135,10 @@ def get_quali_session(season, round):
     for col in final_df.columns:
         if col not in headers:
             final_df.drop(col, axis=1, inplace=True)
-
+    final_df = final_df[headers]
+    for col in booleans:
+        final_df[col] = final_df[col].fillna(False)
+    final_df.sort_values(['season', 'round', 'grid'], inplace=True)
+    final_df.reset_index(drop = True, inplace=True)
     return final_df
-
-
-
-
 

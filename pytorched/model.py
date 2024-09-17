@@ -5,7 +5,8 @@ from torch import nn
 from sklearn.preprocessing import StandardScaler
 import torch.nn.functional as F
 from util.scaler import get_scaler
-from services.quali_service import get_headers
+from util.predictor import predict_winner_from_quali
+
 
 _MODEL = None
 
@@ -32,7 +33,7 @@ def get_model():
     if _MODEL is not None:
         return _MODEL
     else:
-        _MODEL = torch.jit.load('racemodel.pt')
+        _MODEL = torch.jit.load('racemodel.pth')
         _MODEL.eval()
         return _MODEL
 
@@ -78,7 +79,7 @@ def scorecard_ts(season, model2):
                 pred = True
                 break
             elif top_p[0][0] < conf:
-                conf = top_p
+                conf = top_p[0][0]
                 guess = grid + 1
 
         if not pred:
@@ -89,5 +90,6 @@ def scorecard_ts(season, model2):
 
     print(f'{score} out of {predicted} predicted races')
 
-scorecard_ts(2022, moggle)
-print(get_model())
+#scorecard_ts(2023,moggle)
+for i in range(17):
+    print(predict_winner_from_quali(2024, i+1, moggle, data))
