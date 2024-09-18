@@ -9,10 +9,9 @@ def predict_winner_from_quali(season, round, model, data):
 
     scaler = get_scaler(data)
     df = get_quali_session(season, round)
-
     conf = 1
     guess = 0
-    for grid in range(20):
+    for grid in range(len(df.index)):
         X_value = df[(df['grid'] == grid + 1)]
         X_value = X_value.drop(['driver', 'country', 'url'], axis=1)
         X_value = pd.DataFrame(scaler.transform(X_value), columns=X_value.columns)

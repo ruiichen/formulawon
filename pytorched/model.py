@@ -1,8 +1,6 @@
 import pandas as pd
 import torch
 from torch import nn
-#from util.scorecards import scorecard_ts
-from sklearn.preprocessing import StandardScaler
 import torch.nn.functional as F
 from util.scaler import get_scaler
 from util.predictor import predict_winner_from_quali
@@ -60,8 +58,9 @@ def scorecard_ts(season, model2):
         conf = 1
         guess = 0
         pred = False
-        for grid in range(20):
+        for grid in range(19):
             test = df[(df.season == season) & (df['round'] == circuit) & (df['grid'] == grid + 1)]
+            print(test)
             X_test = test.drop(['driver', 'country', 'podium', 'url'], axis=1)
             try:
                 X_test = pd.DataFrame(scaler.transform(X_test), columns=X_test.columns)
