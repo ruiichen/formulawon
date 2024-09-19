@@ -1,12 +1,11 @@
 import torch
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
+from scaler import get_scaler
 import torch.nn.functional as F
 
-_scaler = StandardScaler()
 
 def scorecard(season, model, data):
-    global _scaler
+    scaler = get_scaler(data)
 
     df = data.copy()
     df.podium = df.podium.map(lambda x: 1 if x == 1 else 0)
@@ -16,16 +15,10 @@ def scorecard(season, model, data):
         count += 1
         test = df[(df.season == season) & (df['round'] == circuit) & (df['grid'] == 1)]
 
-        winner = data[(data.season == season) & (data['round'] == circuit) & (data['podium'] == 1)].grid
-        try:
-            winner = winner.to_numpy()[0]
-        except:
-            winner = None
-
         X_test = test.drop(['driver', 'country', 'podium', 'url'], axis=1)
         y_test = test.podium
         # scaling
-        X_test = pd.DataFrame(_scaler.transform(X_test), columns=X_test.columns)
+        X_test = pd.DataFrame(scaler.transform(X_test), columns=X_test.columns)
         X_test = torch.Tensor(X_test.to_numpy())
         with torch.no_grad():
             model.eval()
@@ -43,7 +36,8 @@ def scorecard(season, model, data):
     print(f'{score} out of {count} races')
 
 def scorecard_ts(season, model, data):
-    global _scaler
+    scaler = get_scaler(data)
+
     df = data.copy()
     df.podium = df.podium.map(lambda x: 1 if x == 1 else 0)
     score = 0
@@ -65,7 +59,7 @@ def scorecard_ts(season, model, data):
             test = df[(df.season == season) & (df['round'] == circuit) & (df['grid'] == grid + 1)]
             X_test = test.drop(['driver', 'country', 'podium', 'url'], axis=1)
             try:
-                X_test = pd.DataFrame(_scaler.transform(X_test), columns=X_test.columns)
+                X_test = pd.DataFrame(scaler.transform(X_test), columns=X_test.columns)
             except:
                 continue
             X_test = torch.Tensor(X_test.to_numpy())
@@ -95,12 +89,10 @@ def scorecard_pole(season, data):
     df = data.copy()
     score = 0
     count = 0
-    predicted = 0
     for circuit in df[df.season == season]['round'].unique():
         count += 1
         try:
-            winner = data[(data.season == season) & (data['round'] == circuit) & (data['podium'] == 1)].grid.to_numpy()[
-                0]
+            winner = data[(data.season == season) & (data['round'] == circuit) & (data['podium'] == 1)].grid.to_numpy()[0]
         except:
             continue
         if winner == 1:
