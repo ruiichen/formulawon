@@ -2,6 +2,8 @@ import requests
 import pandas as pd
 from dateutil.relativedelta import *
 from util.consts import headers, booleans
+from util.exceptions import NotFoundError, ExternalServiceError
+
 
 def get_quali(season, round):
     qualifying_results = {'grid': [],
@@ -12,7 +14,10 @@ def get_quali(season, round):
                           'round': []}
 
     url = 'http://ergast.com/api/f1/{}/{}/qualifying.json'
-    resp = requests.get(url.format(season, round))
+    try:
+        resp = requests.get(url.format(season, round))
+    except:
+        raise ExternalServiceError()
     json = resp.json()
 
     for item in json['MRData']['RaceTable']['Races'][0]['QualifyingResults']:
@@ -46,7 +51,10 @@ def get_drivers(season, round):
                         'date_of_birth': []}
 
     url = 'https://ergast.com/api/f1/{}/{}/driverStandings.json'
-    resp = requests.get(url.format(season, round))
+    try:
+        resp = requests.get(url.format(season, round))
+    except:
+        raise ExternalServiceError()
     json = resp.json()
 
     for item in json['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']:
@@ -72,7 +80,10 @@ def get_constructors(season, round):
                              'constructor_standings_pos': []}
 
     url = 'https://ergast.com/api/f1/{}/{}/constructorStandings.json'
-    resp = requests.get(url.format(season, round))
+    try:
+        resp = requests.get(url.format(season, round))
+    except:
+        raise ExternalServiceError()
     json = resp.json()
 
     for item in json['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']:
@@ -95,7 +106,10 @@ def get_race(season, round):
              'date': [],
              'url': []}
     url = 'https://ergast.com/api/f1/{}/{}.json'
-    resp = requests.get(url.format(season, round))
+    try:
+        resp = requests.get(url.format(season, round))
+    except:
+        raise ExternalServiceError()
     item = resp.json()['MRData']['RaceTable']['Races'][0]
     race['season'].append(int(item['season']))
     race['round'].append(int(item['round']))
@@ -105,7 +119,20 @@ def get_race(season, round):
     race['url'].append(item['url'])
     return pd.DataFrame(race)
 
+def get_rounds(season):
+    url = 'https://ergast.com/api/f1/{}.json'
+    try:
+        resp = requests.get(url.format(season))
+    except:
+        raise ExternalServiceError()
+    return resp.json()['MRData']['total']
+
 def get_quali_session(season, round):
+    if season > 2024 or season < 2003:
+        raise NotFoundError()
+    num_rounds = get_rounds(season)
+    if round > num_rounds or round < 1:
+        raise NotFoundError()
     quali = get_quali(season, round)
     driver = get_drivers(season, round)
     constructors = get_constructors(season, round)

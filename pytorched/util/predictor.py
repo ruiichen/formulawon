@@ -26,7 +26,6 @@ def predict_winner_from_quali(season, round, model, data):
             elif prob[0][0] < conf:
                 conf = prob[0][0]
                 guess = grid + 1
-
     return guess
 
 def predict_winner_from_quali_list(season, round, model, data):
@@ -59,8 +58,6 @@ def predict_winner_from_quali_list(season, round, model, data):
         while len(winners) < 3:
             winners.append(losers.pop(0))
         return winners
-
-    return guess
 
 def predict_winner_from_pole(season, round, model, data):
     model.eval()
