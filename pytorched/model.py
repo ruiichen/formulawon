@@ -3,7 +3,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from util.scaler import get_scaler
-from util.predictor import predict_winner_from_quali
+from util.predictor import predict_winner_from_quali, predict_winner_from_pole
 
 
 _MODEL = None
@@ -60,7 +60,6 @@ def scorecard_ts(season, model2):
         pred = False
         for grid in range(19):
             test = df[(df.season == season) & (df['round'] == circuit) & (df['grid'] == grid + 1)]
-            print(test)
             X_test = test.drop(['driver', 'country', 'podium', 'url'], axis=1)
             try:
                 X_test = pd.DataFrame(scaler.transform(X_test), columns=X_test.columns)
@@ -89,6 +88,43 @@ def scorecard_ts(season, model2):
 
     print(f'{score} out of {predicted} predicted races')
 
-#scorecard_ts(2023,moggle)
-for i in range(17):
-    print(predict_winner_from_quali(2024, i+1, moggle, data))
+def scorecard(season, model):
+    scaler = get_scaler(data)
+
+    df = data.copy()
+    df.podium = df.podium.map(lambda x: 1 if x == 1 else 0)
+    score = 0
+    count = 0
+    for circuit in df[df.season == season]['round'].unique():
+        count += 1
+        test = df[(df.season == season) & (df['round'] == circuit) & (df['grid'] == 1)]
+
+        winner = data[(data.season == season) & (data['round'] == circuit) & (data['podium'] == 1)].grid
+        try:
+            winner = winner.to_numpy()[0]
+        except:
+            winner = None
+
+        X_test = test.drop(['driver', 'country', 'podium', 'url'], axis=1)
+        y_test = test.podium
+        # scaling
+        X_test = pd.DataFrame(scaler.transform(X_test), columns=X_test.columns)
+        X_test = torch.Tensor(X_test.to_numpy())
+        with torch.no_grad():
+            model.eval()
+            prediction = model(X_test)
+            prob = F.softmax(prediction, dim=1)
+            top_p, top_class = prob.topk(1, dim=1)
+            if prediction.argmax().item() == y_test.to_numpy()[0]:
+                score += 1
+                print(
+                    f'CORRECTLY predicted the pole to {"win" if prediction.argmax().item() == 1 else "lose"} with {top_p}% confidence')
+            else:
+                print(
+                    f'INCORRECTLY predicted the pole to {"win" if prediction.argmax().item() == 1 else "lose"} with {top_p}% confidence')
+
+    print(f'{score} out of {count} races')
+
+scorecard(2023,moggle)
+for i in range(22):
+    print(predict_winner_from_pole(2023, i+1, moggle, data))

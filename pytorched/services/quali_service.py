@@ -33,7 +33,7 @@ def get_quali(season, round):
             qualifying_results['Q'].append(int(1))
         qualifying_results['season'].append(int(json['MRData']['RaceTable']['Races'][0]['season']))
         qualifying_results['round'].append(int(json['MRData']['RaceTable']['Races'][0]['round']))
-    return pd.DataFrame.from_dict(qualifying_results)
+    return  pd.DataFrame(qualifying_results)
 
 def get_drivers(season, round):
     driver_standings = {'season': [],
@@ -61,7 +61,7 @@ def get_drivers(season, round):
             driver_standings['driver_points'].append(0)
         driver_standings['driver_wins'].append(int(item['wins']))
         driver_standings['driver_standings_pos'].append(int(item['position']))
-    return pd.DataFrame.from_dict(driver_standings)
+    return  pd.DataFrame(driver_standings)
 
 def get_constructors(season, round):
     constructor_standings = {'season': [],
@@ -85,7 +85,7 @@ def get_constructors(season, round):
             constructor_standings['constructor_points'].append(0)
         constructor_standings['constructor_wins'].append(int(item['wins']))
         constructor_standings['constructor_standings_pos'].append(int(item['position']))
-    return pd.DataFrame.from_dict(constructor_standings)
+    return  pd.DataFrame(constructor_standings)
 
 def get_race(season, round):
     race = {'season': [],
@@ -103,7 +103,7 @@ def get_race(season, round):
     race['country'].append(item['Circuit']['Location']['country'])
     race['date'].append(item['date'])
     race['url'].append(item['url'])
-    return pd.DataFrame.from_dict(race)
+    return pd.DataFrame(race)
 
 def get_quali_session(season, round):
     quali = get_quali(season, round)
@@ -117,7 +117,7 @@ def get_quali_session(season, round):
 
     final_df['date'] = pd.to_datetime(final_df.date)
     final_df['date_of_birth'] = pd.to_datetime(final_df.date_of_birth)
-    final_df['driver_age'] = final_df.apply(lambda x: relativedelta(x['date'], x['date_of_birth']).years, axis=1)
+    final_df['age'] = final_df.apply(lambda x: relativedelta(x['date'], x['date_of_birth']).years, axis=1)
     final_df.drop(['date', 'date_of_birth'], axis=1, inplace=True)
 
     for col in ['driver_points', 'driver_wins', 'driver_standings_pos', 'constructor_points',
@@ -140,5 +140,7 @@ def get_quali_session(season, round):
         final_df[col] = final_df[col].fillna(False)
     final_df.sort_values(['season', 'round', 'grid'], inplace=True)
     final_df.reset_index(drop = True, inplace=True)
+    for col in ['driver_points', 'driver_wins', 'driver_standings_pos', 'constructor_points', 'constructor_wins', 'constructor_standings_pos']:
+        final_df[col] = final_df[col].map(lambda x: float(x))
     return final_df
 

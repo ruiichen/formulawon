@@ -16,15 +16,28 @@ def predict_winner_from_quali(season, round, model, data):
         X_value = X_value.drop(['driver', 'country', 'url'], axis=1)
         X_value = pd.DataFrame(scaler.transform(X_value), columns=X_value.columns)
         X_value = torch.Tensor(X_value.to_numpy())
+        with (torch.no_grad()):
+            prediction = model(X_value)
+            prob = F.softmax(prediction, dim=1)
+            prob, dummy = prob.topk(1, dim=1)
 
-        prediction = model(X_value)
-        prob = F.softmax(prediction, dim=1)
-        prob, dummy = prob.topk(1, dim=1)
-
-        if prediction.argmax().item():
-            return grid + 1
-        elif prob[0][0] < conf:
-            conf = prob[0][0]
-            guess = grid + 1
+            if prediction.argmax().item():
+                return grid + 1
+            elif prob[0][0] < conf:
+                conf = prob[0][0]
+                guess = grid + 1
 
     return guess
+
+def predict_winner_from_pole(season, round, model, data):
+    model.eval()
+
+    scaler = get_scaler(data)
+    df = get_quali_session(season, round)
+    with (torch.no_grad()):
+        X_value = df[(df['grid'] == 1)]
+        X_value = X_value.drop(['driver', 'country', 'url'], axis=1)
+        X_value = pd.DataFrame(scaler.transform(X_value), columns=X_value.columns)
+        X_value = torch.Tensor(X_value.to_numpy())
+        prediction = model(X_value)
+        return prediction.argmax().item()
