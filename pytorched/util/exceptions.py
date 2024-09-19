@@ -1,6 +1,6 @@
-from consts import API_VERSION
 from http import HTTPStatus
 from requests import HTTPError, Response
+from util.consts import API_VERSION
 
 def exception_response(error):
     return {"apiVersion": API_VERSION, "error": {"code": error.response.status_code, "message": error.message}}

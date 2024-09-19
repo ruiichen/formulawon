@@ -128,10 +128,10 @@ def get_rounds(season):
     return resp.json()['MRData']['total']
 
 def get_quali_session(season, round):
-    if season > 2024 or season < 2003:
+    if int(season) > 2024 or int(season) < 2003:
         raise NotFoundError()
     num_rounds = get_rounds(season)
-    if round > num_rounds or round < 1:
+    if int(round) > int(num_rounds) or int(round) < 1:
         raise NotFoundError()
     quali = get_quali(season, round)
     driver = get_drivers(season, round)
