@@ -1,9 +1,4 @@
-import pandas as pd
-import torch
 from torch import nn
-import torch.nn.functional as F
-from util.scaler import get_scaler
-from util.predictor import predict_winner_from_quali, predict_winner_from_pole
 
 class F1RacePrediction(nn.Module):
   def __init__(self):
