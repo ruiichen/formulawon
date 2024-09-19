@@ -43,5 +43,9 @@ def predict_pole(season, round):
     except:
         return jsonify(exception_response(InternalServerError()))
 
+@app.route("/")
+def home():
+    return "FORMULA WON API"
+
 if __name__ == '__main__':
     app.run()
