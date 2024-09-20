@@ -19,6 +19,8 @@ def get_quali(season, round):
     except:
         raise ExternalServiceError()
     json = resp.json()
+    if not json['MRData']['RaceTable']['Races']:
+        raise NotFoundError()
 
     for item in json['MRData']['RaceTable']['Races'][0]['QualifyingResults']:
         qualifying_results['grid'].append(int(item['position']))
@@ -119,19 +121,8 @@ def get_race(season, round):
     race['url'].append(item['url'])
     return pd.DataFrame(race)
 
-def get_rounds(season):
-    url = 'https://ergast.com/api/f1/{}.json'
-    try:
-        resp = requests.get(url.format(season))
-    except:
-        raise ExternalServiceError()
-    return resp.json()['MRData']['total']
-
 def get_quali_session(season, round):
     if int(season) > 2024 or int(season) < 2003:
-        raise NotFoundError()
-    num_rounds = get_rounds(season)
-    if int(round) > int(num_rounds) or int(round) < 1:
         raise NotFoundError()
     quali = get_quali(season, round)
     driver = get_drivers(season, round)
