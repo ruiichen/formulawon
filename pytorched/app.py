@@ -4,7 +4,9 @@ from flask import Flask, jsonify
 from model import F1RacePrediction
 from util.predictor import predict_winner_from_pole, predict_winner_from_quali, predict_winner_from_quali_list
 from util.exceptions import *
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 _data = pd.read_csv('data/processed_data.csv')
 _model = F1RacePrediction()
 _model.load_state_dict(torch.load('racemodel.pth', weights_only=True))
