@@ -4,11 +4,11 @@ import torch.nn.functional as F
 from util.scaler import get_scaler
 from services.quali_service import get_quali_session
 
-def predict_winner_from_quali(season, round, model, data):
+def predict_winner_from_quali(season, round, model, data, order):
     model.eval()
 
     scaler = get_scaler(data)
-    df = get_quali_session(season, round)
+    df = get_quali_session(season, round, order)
     conf = 1
     guess = 0
     for grid in range(len(df.index)):
@@ -28,11 +28,11 @@ def predict_winner_from_quali(season, round, model, data):
                 guess = grid + 1
     return guess
 
-def predict_winner_from_quali_list(season, round, model, data):
+def predict_winner_from_quali_list(season, round, model, data, order):
     model.eval()
 
     scaler = get_scaler(data)
-    df = get_quali_session(season, round)
+    df = get_quali_session(season, round, order)
 
     winners = []
     losers = []
@@ -59,11 +59,11 @@ def predict_winner_from_quali_list(season, round, model, data):
             winners.append(losers.pop(0))
         return winners
 
-def predict_winner_from_pole(season, round, model, data):
+def predict_winner_from_pole(season, round, model, data, order):
     model.eval()
 
     scaler = get_scaler(data)
-    df = get_quali_session(season, round)
+    df = get_quali_session(season, round, order)
     with (torch.no_grad()):
         X_value = df[(df['grid'] == 1)]
         X_value = X_value.drop(['driver', 'country', 'url'], axis=1)

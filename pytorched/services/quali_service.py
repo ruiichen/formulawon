@@ -6,7 +6,7 @@ from util.exceptions import NotFoundError, ExternalServiceError
 
 _quali = None
 
-def get_quali(season, round):
+def get_quali(season, round, order):
     global _quali
 
     qualifying_results = {'grid': [],
@@ -29,7 +29,7 @@ def get_quali(season, round):
         raise NotFoundError()
 
     for item in json['MRData']['RaceTable']['Races'][0]['QualifyingResults']:
-        qualifying_results['grid'].append(int(item['position']))
+        qualifying_results['grid'].append(int(item['position'] if not order else order[item['Driver']['driverId']]))
         qualifying_results['driver'].append(item['Driver']['driverId'])
         qualifying_results['constructor'].append(item['Constructor']['constructorId'])
         qualifying_results['nationality'].append(item['Driver']['nationality'])
@@ -163,10 +163,10 @@ def get_race(season, round):
     race['url'].append(item['url'])
     return pd.DataFrame(race)
 
-def get_quali_session(season, round):
+def get_quali_session(season, round, order):
     if int(season) > 2024 or int(season) < 2003:
         raise NotFoundError()
-    quali = get_quali(season, round)
+    quali = get_quali(season, round, order)
     driver = get_drivers(season, round)
     constructors = get_constructors(season, round)
     race = get_race(season, round)

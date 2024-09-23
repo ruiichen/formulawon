@@ -1,0 +1,351 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+.roboto-thin {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.roboto-light {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.roboto-medium {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.roboto-bold {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.roboto-black {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.roboto-thin-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.roboto-light-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.roboto-regular-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.roboto-medium-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.roboto-bold-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.roboto-black-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: rgba(14,13,19,255);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.body {
+  background-color: #15151E;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  background: linear-gradient(to bottom, rgba(21, 21, 30,0.8) 5%,
+  rgba(21, 21, 30, 255)), url('assets/seb.png');
+  /* background-image: url('assets/seb.png'),linear-gradient(to bottom, rgba(14,13,19,255),rgba(14,13,19,255)); */
+}
+
+.queryForm {
+  border-radius: 0px 7px 7px 0px;
+  padding: 15px;
+  background-color: #FF1E00;
+}
+
+.queryForm h1 {
+  color:white;
+  font-family: 'Libre Caslon Text', serif;
+  font-size: xx-large;
+  text-align: left;
+
+}
+
+.queryForm h3{
+  color:white;
+  font-family: 'Jost', sans-serif;
+  text-align: left;
+  font-size: large;
+}
+
+.queryForm h4{
+  color:white;
+  font-family: 'Jost', sans-serif;
+  text-align: left;
+  font-size: large;
+  margin-top:23px;
+  margin-bottom: 17px;
+}
+
+.queryForm h4 span{
+  background-color: rgb(129,158,152,255);
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.queryForm h5{
+  color:white;
+  font-family: 'Jost', sans-serif;
+  text-align: left;
+  font-size: smaller;
+}
+
+.searchBar {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  width: 95%;
+  margin-top: 5px;
+  margin-bottom: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: large;
+  padding: 7px 0px 7px 7px;
+  background-color: white;
+  border-radius: 5px;
+  border: 2px solid rgba(21, 21, 30, 255);
+  color: rgba(21, 21, 30, 255);
+}
+
+.btn{
+  margin-top: 15px;
+  background-color: rgba(21, 21, 30, 255);
+  border: none;
+  border-radius: 7px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: large;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.btn:hover{
+  background-color: white;
+  color: rgba(21, 21, 30, 255);
+}
+
+.halo{
+  padding: 30px 30px 30px 0px;
+  margin-top: 5vh;
+  border-bottom: 27px solid #FF1E00;
+  border-right: 27px solid #FF1E00;
+  border-top: 27px solid #FF1E00;
+  border-radius: 0px 37px 37px 0px;
+  position: relative;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.scoreboard {
+  border: 2px solid white;
+  border-radius: 0px 13px 13px 0px;
+  padding: 10px 0px;
+  background-color: rgba(21, 21, 30, 255);
+}
+
+.scoreboard-btn {
+  width: 100%;
+  background-color: rgba(31, 31, 40, 255);
+  border: none;
+  color: white;
+  margin-top:7px;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  padding: 7px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 25px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.scoreboard-btn:hover {
+  background-color: white;
+  color: rgba(21, 21, 30, 255);
+}
+
+.scoreboardlogo{
+  margin: 7px 7px 7px 0px;
+}
+
+.driverbox-nohvr {
+  display: grid;
+  grid-template-columns: auto 3px auto auto;
+  margin: 7px 0px;
+  background-color: rgba(31, 31, 40, 255);
+  align-items: center; /* centers items vertically */
+}
+
+.driverbox {
+  display: grid;
+  grid-template-columns: auto 3px auto auto;
+  margin: 7px 0px;
+  background-color: rgba(31, 31, 40, 255);
+  align-items: center; /* centers items vertically */
+}
+
+.driverbox:hover {
+  background-color: #FF1E00;
+}
+
+.numberbox {
+  height: 30px;
+  width: 30px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: large;
+  align-content: center;
+  background-color: lightgrey;
+  color: rgba(21, 21, 30, 255);
+  border-radius: 3px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.stylelineQ3 {
+  height: 20px;
+  border: 2px solid #9d2fc0;
+  border-radius:3px;
+  margin-right: 10px;
+}
+
+.stylelineQ2 {
+  height: 20px;
+  border: 2px solid #45d93f;
+  border-radius:3px;
+  margin-right: 10px;
+}
+
+.stylelineQ1 {
+  height: 20px;
+  border: 2px solid #fad408;
+  border-radius:3px;
+  margin-right: 10px;
+}
+
+.namebox {
+  margin-left: 10px;
+  width: 100px;
+  text-align: left;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.qualibox {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+  margin-right: 10px;
+  font-size: 23px;
+}
+
+.scoreboard h3 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: large;
+  margin: 5px;
+}
+
+.scoreboard h5 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: large;
+  margin: 5px;
+}
