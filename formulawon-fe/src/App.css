@@ -1,4 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+.stockView::-webkit-scrollbar{
+  display: none;
+}
+
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  overflow: auto;
+}
+
 .roboto-thin {
   font-family: "Roboto", sans-serif;
   font-weight: 100;
@@ -122,7 +137,6 @@
   color: white;
   background: linear-gradient(to bottom, rgba(21, 21, 30,0.8) 5%,
   rgba(21, 21, 30, 255)), url('assets/seb.png');
-  /* background-image: url('assets/seb.png'),linear-gradient(to bottom, rgba(14,13,19,255),rgba(14,13,19,255)); */
 }
 
 .queryForm {
@@ -142,7 +156,6 @@
 .queryForm h3{
   color:white;
   font-family: 'Jost', sans-serif;
-  text-align: left;
   font-size: large;
 }
 
@@ -228,6 +241,8 @@ input[type=number] {
 }
 
 .scoreboard {
+  margin-top: 11%;
+  margin-bottom: 11%;
   border: 2px solid white;
   border-radius: 0px 13px 13px 0px;
   padding: 10px 0px;
@@ -242,7 +257,7 @@ input[type=number] {
   margin-top:7px;
   border-top: 1px solid white;
   border-bottom: 1px solid white;
-  padding: 7px 32px;
+  padding: 3px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -264,7 +279,7 @@ input[type=number] {
 .driverbox-nohvr {
   display: grid;
   grid-template-columns: auto 3px auto auto;
-  margin: 7px 0px;
+  margin: 3px 0px;
   background-color: rgba(31, 31, 40, 255);
   align-items: center; /* centers items vertically */
 }
@@ -272,7 +287,7 @@ input[type=number] {
 .driverbox {
   display: grid;
   grid-template-columns: auto 3px auto auto;
-  margin: 7px 0px;
+  margin: 3px 0px;
   background-color: rgba(31, 31, 40, 255);
   align-items: center; /* centers items vertically */
 }
@@ -348,4 +363,55 @@ input[type=number] {
   font-style: italic;
   font-size: large;
   margin: 5px;
+}
+
+.fw-logo{
+  width: 500px;
+}
+
+.queryForm h3 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: larger;
+  margin: 5px;
+}
+
+.queryForm h5 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: large;
+  margin: 5px;
+}
+
+.subheading{
+  text-align: center;
+  margin-bottom: 5%
+}
+
+@media (max-width: 500px) {
+  /* CSS that should be displayed if width is equal to or less than 800px goes here */
+  .fw-logo{
+    width: 250px;
+  }
+
+  .halo {
+    margin-left: 7%;
+    width: 80%;
+    align-content: center;
+    padding: 10px 10px 10px 0px;
+    border-bottom: 17px solid #FF1E00;
+    border-right: 17px solid #FF1E00;
+    border-top: 17px solid #FF1E00;
+    border-radius: 0px 27px 27px 0px
+  }
+
+  .searchBar {
+    font-size: small;
+  }
+
+  .btn {
+    font-size: small;
+  }
 }

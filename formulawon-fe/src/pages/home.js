@@ -13,6 +13,8 @@ const Home = () => {
     const [data, setData] = useState(null);
     const [response, setResponse] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [name, setName] = useState("");
+    const [popup, setPopup] = useState(false);
 
     const get_quali_part = (item) => {
         if (item.Q3) {
@@ -63,7 +65,9 @@ const Home = () => {
                     toast.error("ERROR: The round is invalid.");
                 } else {
                     setData(resp.MRData.RaceTable.Races[0].QualifyingResults)
+                    setName(resp.MRData.RaceTable.Races[0].raceName)
                     setStage(2)
+                    setPopup(true);
                 }
             }).catch((err) => {
                 toast.error('Failed: ' + err.message);
@@ -76,7 +80,7 @@ const Home = () => {
     const predict = (e) => {
         e.preventDefault();
         setLoading(true);
-        var predict_url = `http://127.0.0.1:5000/predictqualilist/${season}/${round}`;
+        var predict_url = `https://formulawon-v3-495986580044.us-central1.run.app/predictqualilist/${season}/${round}`;
         fetch(predict_url, {
             method: 'GET', headers: {'order': JSON.stringify(parse_order())}
         }).then((res) => {
@@ -112,15 +116,34 @@ const Home = () => {
                     <CircularProgress size="3rem" color="secondary" />
                 </Backdrop>
             }
+            {popup &&
+                <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}} open={popup}>
+                    <div className="App">
+                        <div className="halo">
+                            <div className="queryForm">
+                                <div className="subheading">
+                                    <h3>Note</h3>
+                                </div>
+                                <h5>Sometimes the qualifying order will not reflect the starting grid due to penalties.</h5>
+                                <h5>Please use the drag and drop menu to match the order, if necessary.</h5>
+                                <button className="btn" onClick={() => {
+                                    setPopup(false)
+                                }}>Confirm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </Backdrop>
+            }
             <div>
                 {stage === 1 &&
                     <div className="App">
-                        <img width="500" className="d-inline-block align-top" src={formulawon}/>
+                        <img className="fw-logo d-inline-block align-top" src={formulawon}/>
                         <div className="halo">
                             <div className="queryForm">
                                 <form onSubmit={search}>
                                     <input type="number" placeholder="SEASON" className="searchBar" onChange={e => setSeason(e.target.value)}/>
-                                    <input type="number" placeholder="YEAR" className="searchBar" onChange={e => setRound(e.target.value)}/>
+                                    <input type="number" placeholder="ROUND" className="searchBar" onChange={e => setRound(e.target.value)}/>
                                     <button className="btn" type="submit">Find</button>
                                 </form>
                             </div>
@@ -132,6 +155,8 @@ const Home = () => {
                         <div>
                             <img width="150" className="scoreboardlogo d-inline-block align-top" src={formulawonw}/>
                         </div>
+                        <h3>{name}</h3>
+                        <h5>{season}</h5>
                         <div>
                             <form onSubmit={predict}>
                                 <button type="submit" className="scoreboard-btn">Find</button>
@@ -181,6 +206,8 @@ const Home = () => {
                         <div>
                             <img width="150" className="scoreboardlogo d-inline-block align-top" src={formulawonw}/>
                         </div>
+                        <h3>{name}</h3>
+                        <h5>{season}</h5>
                         <button onClick={() => {
                             window.location.reload()
                         }} className="scoreboard-btn">Back
