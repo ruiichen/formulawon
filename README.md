@@ -5,12 +5,6 @@ ___
 ![img.png](assets/img.png)
 Formula Won is an API to help enthusiests predict the winner of any F1 race, current or future. The API features three endpoints that can predict either the winner, the most likely winners, or if the polesitter can convert their position to a victory with data from the Ergast API.
 
-## Links
-___
-API: https://formulawon-v3-495986580044.us-central1.run.app 
-
-Website: https://formulawonfe.web.app
-
 ## Endpoints
 ___
 Click each endpoint to reveal more.
